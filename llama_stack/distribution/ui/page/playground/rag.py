@@ -23,6 +23,7 @@ def rag_chat_page():
             type=["txt", "pdf", "doc", "docx"],  # Add more file types as needed
         )
         # Process uploaded files
+        available_models = llama_stack_api.client.models.list()
         if uploaded_files:
             st.success(f"Successfully uploaded {len(uploaded_files)} files")
             # Add memory bank name input field
@@ -31,6 +32,14 @@ def rag_chat_page():
                 value="rag_vector_db",
                 help="Enter a unique identifier for this vector database",
             )
+
+            embedding_models = [model.identifier for model in available_models if model.model_type == "embedding"]
+            embedding_model = st.selectbox(
+                "Embedding model",
+                embedding_models,
+                index=0,
+            )
+
             if st.button("Create Vector Database"):
                 documents = [
                     RAGDocument(
@@ -50,7 +59,7 @@ def rag_chat_page():
                 llama_stack_api.client.vector_dbs.register(
                     vector_db_id=vector_db_name,  # Use the user-provided name
                     embedding_dimension=384,
-                    embedding_model="all-MiniLM-L6-v2",
+                    embedding_model=embedding_model,
                     provider_id=vector_io_provider,
                 )
 
@@ -71,11 +80,10 @@ def rag_chat_page():
             vector_dbs,
         )
 
-        available_models = llama_stack_api.client.models.list()
-        available_models = [model.identifier for model in available_models if model.model_type == "llm"]
+        llm_models = [model.identifier for model in available_models if model.model_type == "llm"]
         selected_model = st.selectbox(
             "Choose a model",
-            available_models,
+            llm_models,
             index=0,
         )
         system_prompt = st.text_area(
