@@ -2054,6 +2054,13 @@ paths:
           required: false
           schema:
             $ref: '#/components/schemas/URL'
+        - name: authorization
+          in: query
+          description: >-
+            (Optional) OAuth access token for authenticating with the MCP server.
+          required: false
+          schema:
+            type: string
       deprecated: false
   /v1/toolgroups:
     get:
@@ -7123,6 +7130,10 @@ components:
               - type: object
           description: >-
             (Optional) HTTP headers to include when connecting to the server
+        authorization:
+          type: string
+          description: >-
+            (Optional) OAuth access token for authenticating with the MCP server
         require_approval:
           oneOf:
             - type: string
@@ -9307,6 +9318,10 @@ components:
               - type: object
           description: >-
             A dictionary of arguments to pass to the tool.
+        authorization:
+          type: string
+          description: >-
+            (Optional) OAuth access token for authenticating with the MCP server.
       additionalProperties: false
       required:
         - tool_name
