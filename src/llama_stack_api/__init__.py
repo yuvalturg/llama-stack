@@ -25,7 +25,7 @@ __version__ = "0.4.0.dev0"
 from . import common  # noqa: F401
 
 # Import all public API symbols
-from .agents import Agents, ResponseGuardrail, ResponseGuardrailSpec
+from .agents import Agents, ResponseGuardrail, ResponseGuardrailSpec, ResponseItemInclude
 from .batches import (
     Batches,
     BatchObject,
@@ -798,6 +798,7 @@ __all__ = [
     "ResponseFormatType",
     "ResponseGuardrail",
     "ResponseGuardrailSpec",
+    "ResponseItemInclude",
     "RouteInfo",
     "RoutingTable",
     "RowsDataSource",
